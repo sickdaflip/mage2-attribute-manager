@@ -253,7 +253,7 @@ class AttributeMerger implements AttributeMergerInterface
     /**
      * @inheritdoc
      */
-    public function createMergeProposal(array $sourceAttributeIds, int $targetAttributeId, string $conflictStrategy): int
+    public function createMergeProposal(array $sourceAttributeIds, int $targetAttributeId, string $conflictStrategy = AttributeMergerInterface::CONFLICT_KEEP_TARGET): int
     {
         $this->logger->info('AttributeMerger: Proposal created', [
             'sources' => $sourceAttributeIds,
