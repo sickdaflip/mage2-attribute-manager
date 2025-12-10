@@ -30,12 +30,6 @@
                         <resource id="FlipDev_AttributeManager::config" title="Configuration" sortOrder="100"/>
                     </resource>
                 </resource>
-                <!-- Also under Stores > Attributes for quick access -->
-                <resource id="Magento_Catalog::catalog">
-                    <resource id="Magento_Catalog::attributes_attributes">
-                        <resource id="FlipDev_AttributeManager::quick_analysis" title="FlipDev Analysis" sortOrder="100"/>
-                    </resource>
-                </resource>
             </resource>
         </resources>
     </acl>
