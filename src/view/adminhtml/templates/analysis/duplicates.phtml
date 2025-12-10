@@ -1,0 +1,40 @@
+<?php
+/** @var \FlipDev\AttributeManager\Block\Adminhtml\Analysis\Duplicates $block */
+$duplicates = $block->findDuplicates();
+?>
+<div class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?= $block->escapeHtml(__('Duplicate Attribute Detection')) ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <?php if (empty($duplicates)): ?>
+            <p class="message success"><?= $block->escapeHtml(__('No duplicate attributes found.')) ?></p>
+        <?php else: ?>
+            <p><?= $block->escapeHtml(__('Found %1 potential duplicate groups:', count($duplicates))) ?></p>
+            <?php foreach ($duplicates as $idx => $group): ?>
+                <div class="duplicate-group">
+                    <h3><?= $block->escapeHtml(__('Group %1', $idx + 1)) ?></h3>
+                    <table class="data-grid">
+                        <thead>
+                            <tr>
+                                <th><?= $block->escapeHtml(__('Attribute Code')) ?></th>
+                                <th><?= $block->escapeHtml(__('Label')) ?></th>
+                                <th><?= $block->escapeHtml(__('Type')) ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($group['attributes'] ?? [] as $attr): ?>
+                                <tr>
+                                    <td><?= $block->escapeHtml($attr['code'] ?? '') ?></td>
+                                    <td><?= $block->escapeHtml($attr['label'] ?? '') ?></td>
+                                    <td><?= $block->escapeHtml($attr['type'] ?? '') ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <p><em><?= $block->escapeHtml(__('Similarity: %1%, Type: %2', $group['similarity'] ?? 0, $group['type'] ?? '')) ?></em></p>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+</div>

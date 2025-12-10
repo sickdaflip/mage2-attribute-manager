@@ -1,0 +1,38 @@
+<?php /** @var \FlipDev\AttributeManager\Block\Adminhtml\Approval\Index $block */
+$approvals = $block->getPendingApprovals();
+?>
+<div class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?= $block->escapeHtml(__('Approval Queue')) ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <?php if (empty($approvals)): ?>
+            <p class="message success"><?= $block->escapeHtml(__('No pending approvals.')) ?></p>
+        <?php else: ?>
+            <table class="data-grid">
+                <thead>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('ID')) ?></th>
+                        <th><?= $block->escapeHtml(__('Type')) ?></th>
+                        <th><?= $block->escapeHtml(__('Description')) ?></th>
+                        <th><?= $block->escapeHtml(__('Requested By')) ?></th>
+                        <th><?= $block->escapeHtml(__('Date')) ?></th>
+                        <th><?= $block->escapeHtml(__('Actions')) ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($approvals as $approval): ?>
+                        <tr>
+                            <td><?= $block->escapeHtml($approval['id'] ?? '') ?></td>
+                            <td><?= $block->escapeHtml($approval['type'] ?? '') ?></td>
+                            <td><?= $block->escapeHtml($approval['description'] ?? '') ?></td>
+                            <td><?= $block->escapeHtml($approval['user'] ?? '') ?></td>
+                            <td><?= $block->escapeHtml($approval['date'] ?? '') ?></td>
+                            <td><!-- Actions --></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php endif; ?>
+    </div>
+</div>

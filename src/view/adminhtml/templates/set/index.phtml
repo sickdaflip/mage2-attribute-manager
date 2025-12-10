@@ -1,0 +1,32 @@
+<?php /** @var \FlipDev\AttributeManager\Block\Adminhtml\Set\Index $block */
+$sets = $block->getSetDistribution();
+?>
+<div class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?= $block->escapeHtml(__('Attribute Sets')) ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <?php if (empty($sets)): ?>
+            <p><?= $block->escapeHtml(__('No attribute sets found.')) ?></p>
+        <?php else: ?>
+            <table class="data-grid">
+                <thead>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Attribute Set')) ?></th>
+                        <th><?= $block->escapeHtml(__('Product Count')) ?></th>
+                        <th><?= $block->escapeHtml(__('Percentage')) ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($sets as $set): ?>
+                        <tr>
+                            <td><?= $block->escapeHtml($set['name'] ?? '') ?></td>
+                            <td><?= $block->escapeHtml($set['count'] ?? 0) ?></td>
+                            <td><?= $block->escapeHtml(number_format($set['percentage'] ?? 0, 1)) ?>%</td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php endif; ?>
+    </div>
+</div>
