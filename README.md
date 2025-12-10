@@ -53,7 +53,7 @@ Comprehensive EAV attribute management for Magento 2 with fill-rate analysis, du
 
 ```bash
 composer config repositories.flipdev/mage2-attribute-manager vcs https://github.com/sickdaflip/mage2-attribute-manager.git
-composer require flipdev/mage2-attribute-manager
+composer require sickdaflip/mage2-attribute-manager
 bin/magento module:enable FlipDev_AttributeManager
 bin/magento setup:upgrade
 bin/magento setup:di:compile
