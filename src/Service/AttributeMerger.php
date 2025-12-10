@@ -205,7 +205,7 @@ class AttributeMerger implements AttributeMergerInterface
     /**
      * @inheritdoc
      */
-    public function mergeOptions(int $sourceAttributeId, int $targetAttributeId, array $optionMapping): array
+    public function mergeOptions(int $sourceAttributeId, int $targetAttributeId, array $optionMapping = []): array
     {
         $connection = $this->resourceConnection->getConnection();
         $optionTable = $this->resourceConnection->getTableName('eav_attribute_option');
