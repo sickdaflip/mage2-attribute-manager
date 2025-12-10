@@ -112,14 +112,14 @@ class AttributeMerger implements AttributeMergerInterface
     public function executeMerge(
         array $sourceAttributeIds,
         int $targetAttributeId,
-        string $conflictStrategy = self::STRATEGY_PREFER_FILLED,
-        bool $deleteSourceAfterMerge = false
+        string $conflictStrategy = AttributeMergerInterface::CONFLICT_KEEP_TARGET,
+        bool $deleteSource = false
     ): array {
         $this->logger->info('AttributeMerger: Starting merge', [
             'sources' => $sourceAttributeIds,
             'target' => $targetAttributeId,
             'strategy' => $conflictStrategy,
-            'delete_source' => $deleteSourceAfterMerge
+            'delete_source' => $deleteSource
         ]);
 
         $connection = $this->resourceConnection->getConnection();
@@ -184,7 +184,7 @@ class AttributeMerger implements AttributeMergerInterface
                     'options_merged' => count($optionMapping)
                 ];
 
-                if ($deleteSourceAfterMerge) {
+                if ($deleteSource) {
                     $this->deleteAttribute($connection, (int) $sourceId);
                     $results['sources_deleted'][] = $sourceId;
                 }
