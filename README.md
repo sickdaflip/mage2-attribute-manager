@@ -43,9 +43,9 @@ Comprehensive EAV attribute management for Magento 2 with fill-rate analysis, du
 
 ## Requirements
 
-- Magento 2.4.x
-- PHP 8.1+
-- FlipDev_Core module
+- Magento 2.4.8+
+- PHP 8.4+
+- FlipDev_Core module ^1.0.0
 
 ## Installation
 
