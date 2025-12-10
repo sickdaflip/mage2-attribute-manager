@@ -327,11 +327,11 @@ class FillRateAnalyzer implements FillRateAnalyzerInterface
         $attributeTable = $this->resourceConnection->getTableName('eav_attribute');
 
         $select = $connection->select()
-            ->from($attributeTable)
-            ->where('entity_type_id = ?', $entityTypeId);
+            ->from(['main_table' => $attributeTable])
+            ->where('main_table.entity_type_id = ?', $entityTypeId);
 
         if ($this->config->excludeSystemAttributes()) {
-            $select->where('is_user_defined = ?', 1);
+            $select->where('main_table.is_user_defined = ?', 1);
         }
 
         if ($attributeSetId !== null) {
