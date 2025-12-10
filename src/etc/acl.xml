@@ -9,8 +9,8 @@
     <acl>
         <resources>
             <resource id="Magento_Backend::admin">
-                <resource id="FlipDev_Core::flipdev" title="FlipDev Extensions">
-                    <resource id="FlipDev_AttributeManager::attribute_manager" title="Attribute Manager" sortOrder="20">
+                <resource id="Magento_Backend::stores">
+                    <resource id="FlipDev_AttributeManager::attribute_manager" title="Attribute Manager" sortOrder="70">
                         <resource id="FlipDev_AttributeManager::dashboard" title="Dashboard" sortOrder="10"/>
                         <resource id="FlipDev_AttributeManager::analysis" title="Analysis" sortOrder="20">
                             <resource id="FlipDev_AttributeManager::analysis_fillrate" title="Fill-Rate Analysis" sortOrder="10"/>

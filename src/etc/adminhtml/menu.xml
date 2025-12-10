@@ -7,13 +7,13 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
-        <!-- Main menu under FlipDev -->
+        <!-- Main menu under Stores -->
         <add id="FlipDev_AttributeManager::attribute_manager"
              title="Attribute Manager"
              translate="title"
              module="FlipDev_AttributeManager"
-             sortOrder="20"
-             parent="FlipDev_Core::flipdev"
+             sortOrder="70"
+             parent="Magento_Backend::stores"
              resource="FlipDev_AttributeManager::attribute_manager"/>
 
         <!-- Dashboard -->
