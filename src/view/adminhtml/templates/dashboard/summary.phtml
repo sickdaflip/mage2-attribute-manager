@@ -1,0 +1,33 @@
+<?php
+/**
+ * @var \FlipDev\AttributeManager\Block\Adminhtml\Dashboard\Summary $block
+ */
+$summary = $block->getSummaryStatistics();
+?>
+<div class="admin__page-section-title">
+    <span class="title"><?= $block->escapeHtml(__('Summary Statistics')) ?></span>
+</div>
+<div class="admin__data-grid-wrap">
+    <div class="dashboard-summary-grid">
+        <div class="summary-item">
+            <div class="summary-label"><?= $block->escapeHtml(__('Total Attributes')) ?></div>
+            <div class="summary-value"><?= $block->escapeHtml($summary['total_attributes'] ?? 0) ?></div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-label"><?= $block->escapeHtml(__('Average Fill Rate')) ?></div>
+            <div class="summary-value"><?= $block->escapeHtml(number_format($summary['avg_fill_rate'] ?? 0, 1)) ?>%</div>
+        </div>
+        <div class="summary-item critical">
+            <div class="summary-label"><?= $block->escapeHtml(__('Critical Attributes')) ?></div>
+            <div class="summary-value"><?= $block->escapeHtml($summary['critical'] ?? 0) ?></div>
+        </div>
+        <div class="summary-item warning">
+            <div class="summary-label"><?= $block->escapeHtml(__('Warning Attributes')) ?></div>
+            <div class="summary-value"><?= $block->escapeHtml($summary['warning'] ?? 0) ?></div>
+        </div>
+        <div class="summary-item healthy">
+            <div class="summary-label"><?= $block->escapeHtml(__('Healthy Attributes')) ?></div>
+            <div class="summary-value"><?= $block->escapeHtml($summary['healthy'] ?? 0) ?></div>
+        </div>
+    </div>
+</div>

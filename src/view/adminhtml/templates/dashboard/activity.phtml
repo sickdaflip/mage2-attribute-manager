@@ -1,0 +1,23 @@
+<?php
+/**
+ * @var \FlipDev\AttributeManager\Block\Adminhtml\Dashboard\RecentActivity $block
+ */
+$activities = $block->getRecentActivity();
+?>
+<div class="admin__page-section-title">
+    <span class="title"><?= $block->escapeHtml(__('Recent Activity')) ?></span>
+</div>
+<div class="admin__data-grid-wrap">
+    <?php if (empty($activities)): ?>
+        <p><?= $block->escapeHtml(__('No recent activity.')) ?></p>
+    <?php else: ?>
+        <ul class="activity-list">
+            <?php foreach ($activities as $activity): ?>
+                <li class="activity-item">
+                    <span class="activity-time"><?= $block->escapeHtml($activity['time'] ?? '') ?></span>
+                    <span class="activity-description"><?= $block->escapeHtml($activity['description'] ?? '') ?></span>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+</div>
