@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * FlipDev_AttributeManager - Default Configuration
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <flipdev_attributes>
+            <general>
+                <enabled>1</enabled>
+                <entity_type>catalog_product</entity_type>
+            </general>
+            <fillrate>
+                <threshold_critical>25</threshold_critical>
+                <threshold_warning>50</threshold_warning>
+                <exclude_system>1</exclude_system>
+            </fillrate>
+            <duplicates>
+                <similarity_threshold>70</similarity_threshold>
+                <check_labels>1</check_labels>
+            </duplicates>
+            <approval>
+                <enabled>0</enabled>
+                <auto_approve_threshold>10</auto_approve_threshold>
+            </approval>
+            <i18n>
+                <default_locale>de_DE</default_locale>
+                <export_all_locales>1</export_all_locales>
+            </i18n>
+        </flipdev_attributes>
+    </default>
+</config>

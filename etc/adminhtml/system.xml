@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * FlipDev_AttributeManager - System Configuration
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="flipdev_attributes" translate="label" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+            <label>Attribute Manager</label>
+            <tab>flipdev</tab>
+            <resource>FlipDev_AttributeManager::config</resource>
+
+            <!-- General Settings -->
+            <group id="general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>General Settings</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Module</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable or disable the Attribute Manager functionality.</comment>
+                </field>
+                <field id="entity_type" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Default Entity Type</label>
+                    <source_model>FlipDev\AttributeManager\Model\Config\Source\EntityType</source_model>
+                    <comment>Primary entity type for analysis (catalog_product, catalog_category, customer, etc.)</comment>
+                </field>
+            </group>
+
+            <!-- Fill-Rate Settings -->
+            <group id="fillrate" translate="label" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Fill-Rate Analysis</label>
+                <field id="threshold_critical" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Critical Threshold (%)</label>
+                    <validate>validate-digits validate-digits-range digits-range-0-100</validate>
+                    <comment>Attributes below this fill-rate are marked as critical. Default: 25</comment>
+                </field>
+                <field id="threshold_warning" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Warning Threshold (%)</label>
+                    <validate>validate-digits validate-digits-range digits-range-0-100</validate>
+                    <comment>Attributes below this fill-rate are marked as warning. Default: 50</comment>
+                </field>
+                <field id="exclude_system" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Exclude System Attributes</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+
+            <!-- Duplicate Detection -->
+            <group id="duplicates" translate="label" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Duplicate Detection</label>
+                <field id="similarity_threshold" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Similarity Threshold (%)</label>
+                    <validate>validate-digits validate-digits-range digits-range-0-100</validate>
+                    <comment>Minimum similarity for duplicate detection. Default: 70</comment>
+                </field>
+                <field id="check_labels" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Compare Labels</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Also compare frontend labels for duplicates.</comment>
+                </field>
+            </group>
+
+            <!-- Approval Workflow -->
+            <group id="approval" translate="label" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Approval Workflow</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Approval Workflow</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Require approval for bulk attribute changes.</comment>
+                </field>
+                <field id="notify_email" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Notification Email</label>
+                    <validate>validate-email</validate>
+                    <comment>Email address for approval notifications.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="auto_approve_threshold" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Auto-Approve Threshold</label>
+                    <validate>validate-digits</validate>
+                    <comment>Changes affecting fewer products than this are auto-approved. 0 = always require approval.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+
+            <!-- i18n Settings -->
+            <group id="i18n" translate="label" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Internationalization</label>
+                <field id="default_locale" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Locale for Labels</label>
+                    <source_model>Magento\Config\Model\Config\Source\Locale</source_model>
+                </field>
+                <field id="export_all_locales" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Export All Locales</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Include all store view labels in exports.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

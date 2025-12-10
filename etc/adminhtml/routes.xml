@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * FlipDev_AttributeManager - Admin Routes
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="admin">
+        <route id="flipdev_attributes" frontName="flipdev_attributes">
+            <module name="FlipDev_AttributeManager" before="Magento_Backend"/>
+        </route>
+    </router>
+</config>

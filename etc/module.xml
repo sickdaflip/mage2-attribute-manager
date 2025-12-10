@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * FlipDev_AttributeManager
+ *
+ * @category  FlipDev
+ * @package   FlipDev_AttributeManager
+ * @author    Philipp <philipp@flipdev.de>
+ * @copyright Copyright (c) 2024-2025 FlipDev
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="FlipDev_AttributeManager">
+        <sequence>
+            <module name="FlipDev_Core"/>
+            <module name="Magento_Catalog"/>
+            <module name="Magento_Eav"/>
+            <module name="Magento_Backend"/>
+            <module name="Magento_Ui"/>
+        </sequence>
+    </module>
+</config>

@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * FlipDev_AttributeManager - Dependency Injection
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <!-- Service Layer Preferences -->
+    <preference for="FlipDev\AttributeManager\Api\FillRateAnalyzerInterface"
+                type="FlipDev\AttributeManager\Service\FillRateAnalyzer"/>
+
+    <preference for="FlipDev\AttributeManager\Api\DuplicateDetectorInterface"
+                type="FlipDev\AttributeManager\Service\DuplicateDetector"/>
+
+    <preference for="FlipDev\AttributeManager\Api\AttributeMergerInterface"
+                type="FlipDev\AttributeManager\Service\AttributeMerger"/>
+
+    <preference for="FlipDev\AttributeManager\Api\SetMigrationInterface"
+                type="FlipDev\AttributeManager\Service\SetMigration"/>
+
+    <!-- Virtual Types for Logging -->
+    <virtualType name="FlipDevAttributeManagerLogger" type="Monolog\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">flipdev_attributes</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="system" xsi:type="object">FlipDevAttributeManagerLogHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="FlipDevAttributeManagerLogHandler" type="Magento\Framework\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">/var/log/flipdev_attributes.log</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Inject custom logger into services -->
+    <type name="FlipDev\AttributeManager\Service\FillRateAnalyzer">
+        <arguments>
+            <argument name="logger" xsi:type="object">FlipDevAttributeManagerLogger</argument>
+        </arguments>
+    </type>
+
+    <type name="FlipDev\AttributeManager\Service\DuplicateDetector">
+        <arguments>
+            <argument name="logger" xsi:type="object">FlipDevAttributeManagerLogger</argument>
+        </arguments>
+    </type>
+
+    <type name="FlipDev\AttributeManager\Service\AttributeMerger">
+        <arguments>
+            <argument name="logger" xsi:type="object">FlipDevAttributeManagerLogger</argument>
+        </arguments>
+    </type>
+
+    <type name="FlipDev\AttributeManager\Service\SetMigration">
+        <arguments>
+            <argument name="logger" xsi:type="object">FlipDevAttributeManagerLogger</argument>
+        </arguments>
+    </type>
+
+    <!-- Console Commands Registration -->
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="flipdev_attributes_analyze" xsi:type="object">FlipDev\AttributeManager\Console\Command\AnalyzeCommand</item>
+                <item name="flipdev_attributes_fillrate" xsi:type="object">FlipDev\AttributeManager\Console\Command\FillRateCommand</item>
+                <item name="flipdev_attributes_chaos" xsi:type="object">FlipDev\AttributeManager\Console\Command\ChaosCommand</item>
+                <item name="flipdev_attributes_duplicates" xsi:type="object">FlipDev\AttributeManager\Console\Command\DuplicatesCommand</item>
+                <item name="flipdev_attributes_migrate" xsi:type="object">FlipDev\AttributeManager\Console\Command\MigrateCommand</item>
+                <item name="flipdev_attributes_misassigned" xsi:type="object">FlipDev\AttributeManager\Console\Command\MisassignedCommand</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

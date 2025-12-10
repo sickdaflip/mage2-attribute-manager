@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * FlipDev_AttributeManager - ACL Configuration
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="FlipDev_Core::flipdev" title="FlipDev Extensions">
+                    <resource id="FlipDev_AttributeManager::attribute_manager" title="Attribute Manager" sortOrder="20">
+                        <resource id="FlipDev_AttributeManager::dashboard" title="Dashboard" sortOrder="10"/>
+                        <resource id="FlipDev_AttributeManager::analysis" title="Analysis" sortOrder="20">
+                            <resource id="FlipDev_AttributeManager::analysis_fillrate" title="Fill-Rate Analysis" sortOrder="10"/>
+                            <resource id="FlipDev_AttributeManager::analysis_duplicates" title="Duplicate Detection" sortOrder="20"/>
+                            <resource id="FlipDev_AttributeManager::analysis_chaos" title="Format Chaos Report" sortOrder="30"/>
+                        </resource>
+                        <resource id="FlipDev_AttributeManager::attributes" title="Attributes" sortOrder="30">
+                            <resource id="FlipDev_AttributeManager::attributes_view" title="View Attributes" sortOrder="10"/>
+                            <resource id="FlipDev_AttributeManager::attributes_edit" title="Edit Attributes" sortOrder="20"/>
+                            <resource id="FlipDev_AttributeManager::attributes_merge" title="Merge Attributes" sortOrder="30"/>
+                        </resource>
+                        <resource id="FlipDev_AttributeManager::sets" title="Attribute Sets" sortOrder="40">
+                            <resource id="FlipDev_AttributeManager::sets_view" title="View Sets" sortOrder="10"/>
+                            <resource id="FlipDev_AttributeManager::sets_migrate" title="Migrate Products" sortOrder="20"/>
+                        </resource>
+                        <resource id="FlipDev_AttributeManager::approval" title="Approval Queue" sortOrder="50"/>
+                        <resource id="FlipDev_AttributeManager::config" title="Configuration" sortOrder="100"/>
+                    </resource>
+                </resource>
+                <!-- Also under Stores > Attributes for quick access -->
+                <resource id="Magento_Catalog::catalog">
+                    <resource id="Magento_Catalog::attributes_attributes">
+                        <resource id="FlipDev_AttributeManager::quick_analysis" title="FlipDev Analysis" sortOrder="100"/>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

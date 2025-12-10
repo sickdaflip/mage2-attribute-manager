@@ -1,0 +1,31 @@
+{
+    "name": "flipdev/module-attribute-manager",
+    "description": "Comprehensive EAV attribute management for Magento 2 - Fill-rate analysis, consolidation, migration & approval workflows",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Philipp Breitsprecher",
+            "email": "philippbreitsprecher@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^8.4",
+        "magento/framework": "^103.0",
+        "magento/module-catalog": "^104.0",
+        "magento/module-eav": "^102.0",
+        "magento/module-backend": "^102.0",
+        "magento/module-ui": "^101.0",
+        "flipdev/module-core": "^1.0"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "FlipDev\\AttributeManager\\": ""
+        }
+    }
+}

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * FlipDev_AttributeManager - Dashboard Layout
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="styles"/>
+    <head>
+        <css src="FlipDev_AttributeManager::css/dashboard.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="FlipDev\AttributeManager\Block\Adminhtml\Dashboard"
+                   name="flipdev.attributes.dashboard"
+                   template="FlipDev_AttributeManager::dashboard/index.phtml">
+                <!-- Summary Statistics -->
+                <block class="FlipDev\AttributeManager\Block\Adminhtml\Dashboard\Summary"
+                       name="flipdev.attributes.dashboard.summary"
+                       template="FlipDev_AttributeManager::dashboard/summary.phtml"/>
+                <!-- Fill Rate Chart -->
+                <block class="FlipDev\AttributeManager\Block\Adminhtml\Dashboard\FillRateChart"
+                       name="flipdev.attributes.dashboard.fillrate_chart"
+                       template="FlipDev_AttributeManager::dashboard/fillrate_chart.phtml"/>
+                <!-- Attribute Sets Overview -->
+                <block class="FlipDev\AttributeManager\Block\Adminhtml\Dashboard\SetOverview"
+                       name="flipdev.attributes.dashboard.set_overview"
+                       template="FlipDev_AttributeManager::dashboard/set_overview.phtml"/>
+                <!-- Critical Attributes -->
+                <block class="FlipDev\AttributeManager\Block\Adminhtml\Dashboard\CriticalAttributes"
+                       name="flipdev.attributes.dashboard.critical"
+                       template="FlipDev_AttributeManager::dashboard/critical.phtml"/>
+                <!-- Recent Activity -->
+                <block class="FlipDev\AttributeManager\Block\Adminhtml\Dashboard\RecentActivity"
+                       name="flipdev.attributes.dashboard.activity"
+                       template="FlipDev_AttributeManager::dashboard/activity.phtml"/>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,112 @@
+<?php
+/**
+ * FlipDev_AttributeManager - Dashboard Template
+ *
+ * @var \FlipDev\AttributeManager\Block\Adminhtml\Dashboard $block
+ */
+?>
+<div class="flipdev-attribute-manager-dashboard">
+    <?php if (!$block->isModuleEnabled()): ?>
+        <div class="message message-warning warning">
+            <span><?= $block->escapeHtml(__('Attribute Manager is currently disabled. Enable it in Stores > Configuration > FlipDev Extensions > Attribute Manager.')) ?></span>
+        </div>
+    <?php endif; ?>
+
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <h1 class="page-title"><?= $block->escapeHtml(__('Attribute Manager Dashboard')) ?></h1>
+        <p class="dashboard-subtitle">
+            <?= $block->escapeHtml(__('Analyze and manage your EAV attributes efficiently.')) ?>
+        </p>
+    </div>
+
+    <!-- Quick Stats Cards -->
+    <div class="dashboard-stats-grid">
+        <?= $block->getChildHtml('flipdev.attributes.dashboard.summary') ?>
+    </div>
+
+    <!-- Main Dashboard Grid -->
+    <div class="dashboard-main-grid">
+        <!-- Left Column -->
+        <div class="dashboard-column-main">
+            <!-- Fill Rate Chart -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3><?= $block->escapeHtml(__('Fill-Rate Distribution')) ?></h3>
+                    <a href="<?= $block->escapeUrl($block->getFillRateUrl()) ?>" class="card-action">
+                        <?= $block->escapeHtml(__('View Details')) ?> →
+                    </a>
+                </div>
+                <div class="card-content">
+                    <?= $block->getChildHtml('flipdev.attributes.dashboard.fillrate_chart') ?>
+                </div>
+            </div>
+
+            <!-- Attribute Sets Overview -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3><?= $block->escapeHtml(__('Attribute Sets')) ?></h3>
+                    <a href="<?= $block->escapeUrl($block->getSetsUrl()) ?>" class="card-action">
+                        <?= $block->escapeHtml(__('Manage Sets')) ?> →
+                    </a>
+                </div>
+                <div class="card-content">
+                    <?= $block->getChildHtml('flipdev.attributes.dashboard.set_overview') ?>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="dashboard-column-side">
+            <!-- Critical Attributes -->
+            <div class="dashboard-card card-critical">
+                <div class="card-header">
+                    <h3><?= $block->escapeHtml(__('Critical Attributes')) ?></h3>
+                    <span class="threshold-badge">
+                        &lt; <?= $block->escapeHtml((string) $block->getCriticalThreshold()) ?>%
+                    </span>
+                </div>
+                <div class="card-content">
+                    <?= $block->getChildHtml('flipdev.attributes.dashboard.critical') ?>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3><?= $block->escapeHtml(__('Quick Actions')) ?></h3>
+                </div>
+                <div class="card-content">
+                    <div class="quick-actions-list">
+                        <a href="<?= $block->escapeUrl($block->getFillRateUrl()) ?>" class="quick-action">
+                            <span class="action-icon">📊</span>
+                            <span class="action-label"><?= $block->escapeHtml(__('Run Fill-Rate Analysis')) ?></span>
+                        </a>
+                        <a href="<?= $block->escapeUrl($block->getDuplicatesUrl()) ?>" class="quick-action">
+                            <span class="action-icon">🔍</span>
+                            <span class="action-label"><?= $block->escapeHtml(__('Find Duplicates')) ?></span>
+                        </a>
+                        <a href="<?= $block->escapeUrl($block->getAttributesUrl()) ?>" class="quick-action">
+                            <span class="action-icon">📝</span>
+                            <span class="action-label"><?= $block->escapeHtml(__('Browse Attributes')) ?></span>
+                        </a>
+                        <a href="<?= $block->escapeUrl($block->getApprovalUrl()) ?>" class="quick-action">
+                            <span class="action-icon">✅</span>
+                            <span class="action-label"><?= $block->escapeHtml(__('Approval Queue')) ?></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3><?= $block->escapeHtml(__('Recent Activity')) ?></h3>
+                </div>
+                <div class="card-content">
+                    <?= $block->getChildHtml('flipdev.attributes.dashboard.activity') ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

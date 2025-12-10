@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * FlipDev_AttributeManager - Admin Menu
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <!-- Main menu under FlipDev -->
+        <add id="FlipDev_AttributeManager::attribute_manager"
+             title="Attribute Manager"
+             translate="title"
+             module="FlipDev_AttributeManager"
+             sortOrder="20"
+             parent="FlipDev_Core::flipdev"
+             resource="FlipDev_AttributeManager::attribute_manager"/>
+
+        <!-- Dashboard -->
+        <add id="FlipDev_AttributeManager::dashboard"
+             title="Dashboard"
+             translate="title"
+             module="FlipDev_AttributeManager"
+             sortOrder="10"
+             parent="FlipDev_AttributeManager::attribute_manager"
+             action="flipdev_attributes/dashboard/index"
+             resource="FlipDev_AttributeManager::dashboard"/>
+
+        <!-- Analysis Submenu -->
+        <add id="FlipDev_AttributeManager::analysis"
+             title="Analysis"
+             translate="title"
+             module="FlipDev_AttributeManager"
+             sortOrder="20"
+             parent="FlipDev_AttributeManager::attribute_manager"
+             resource="FlipDev_AttributeManager::analysis"/>
+
+        <add id="FlipDev_AttributeManager::analysis_fillrate"
+             title="Fill-Rate Report"
+             translate="title"
+             module="FlipDev_AttributeManager"
+             sortOrder="10"
+             parent="FlipDev_AttributeManager::analysis"
+             action="flipdev_attributes/analysis/fillrate"
+             resource="FlipDev_AttributeManager::analysis_fillrate"/>
+
+        <add id="FlipDev_AttributeManager::analysis_duplicates"
+             title="Duplicate Detection"
+             translate="title"
+             module="FlipDev_AttributeManager"
+             sortOrder="20"
+             parent="FlipDev_AttributeManager::analysis"
+             action="flipdev_attributes/analysis/duplicates"
+             resource="FlipDev_AttributeManager::analysis_duplicates"/>
+
+        <add id="FlipDev_AttributeManager::analysis_chaos"
+             title="Format Chaos"
+             translate="title"
+             module="FlipDev_AttributeManager"
+             sortOrder="30"
+             parent="FlipDev_AttributeManager::analysis"
+             action="flipdev_attributes/analysis/chaos"
+             resource="FlipDev_AttributeManager::analysis_chaos"/>
+
+        <!-- Attributes -->
+        <add id="FlipDev_AttributeManager::attributes"
+             title="Attributes"
+             translate="title"
+             module="FlipDev_AttributeManager"
+             sortOrder="30"
+             parent="FlipDev_AttributeManager::attribute_manager"
+             action="flipdev_attributes/attribute/index"
+             resource="FlipDev_AttributeManager::attributes_view"/>
+
+        <!-- Attribute Sets -->
+        <add id="FlipDev_AttributeManager::sets"
+             title="Attribute Sets"
+             translate="title"
+             module="FlipDev_AttributeManager"
+             sortOrder="40"
+             parent="FlipDev_AttributeManager::attribute_manager"
+             action="flipdev_attributes/set/index"
+             resource="FlipDev_AttributeManager::sets_view"/>
+
+        <!-- Approval Queue -->
+        <add id="FlipDev_AttributeManager::approval"
+             title="Approval Queue"
+             translate="title"
+             module="FlipDev_AttributeManager"
+             sortOrder="50"
+             parent="FlipDev_AttributeManager::attribute_manager"
+             action="flipdev_attributes/approval/index"
+             resource="FlipDev_AttributeManager::approval"/>
+    </menu>
+</config>
