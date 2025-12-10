@@ -1,0 +1,140 @@
+<?php
+/**
+ * @var \FlipDev\AttributeManager\Block\Adminhtml\Analysis\Fillrate $block
+ */
+$fillRates = $block->getAttributeFillRates();
+$criticalAttributes = $block->getCriticalAttributes();
+$unusedAttributes = $block->getUnusedAttributes();
+$criticalThreshold = $block->getCriticalThreshold();
+$warningThreshold = $block->getWarningThreshold();
+?>
+
+<div class="page-main-actions">
+    <div class="page-actions">
+        <!-- Action buttons could go here -->
+    </div>
+</div>
+
+<div class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?= $block->escapeHtml(__('Attribute Fill-Rate Analysis')) ?></span>
+    </div>
+
+    <div class="admin__page-section-content">
+        <!-- Summary Statistics -->
+        <div class="admin__data-grid-wrap">
+            <div class="admin__page-section-item-title">
+                <span class="title"><?= $block->escapeHtml(__('Summary')) ?></span>
+            </div>
+            <div class="fillrate-summary">
+                <p><?= $block->escapeHtml(__('Critical Threshold: %1%', $criticalThreshold)) ?></p>
+                <p><?= $block->escapeHtml(__('Warning Threshold: %1%', $warningThreshold)) ?></p>
+                <p><?= $block->escapeHtml(__('Total Attributes: %1', count($fillRates))) ?></p>
+                <p class="critical"><?= $block->escapeHtml(__('Critical Attributes: %1', count($criticalAttributes))) ?></p>
+                <p class="warning"><?= $block->escapeHtml(__('Unused Attributes: %1', count($unusedAttributes))) ?></p>
+            </div>
+        </div>
+
+        <!-- Unused Attributes -->
+        <?php if (!empty($unusedAttributes)): ?>
+        <div class="admin__data-grid-wrap">
+            <div class="admin__page-section-item-title">
+                <span class="title"><?= $block->escapeHtml(__('Unused Attributes (0% Fill Rate)')) ?></span>
+            </div>
+            <table class="data-grid">
+                <thead>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Attribute Code')) ?></th>
+                        <th><?= $block->escapeHtml(__('Label')) ?></th>
+                        <th><?= $block->escapeHtml(__('Type')) ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($unusedAttributes as $attr): ?>
+                        <tr>
+                            <td><?= $block->escapeHtml($attr['code'] ?? '') ?></td>
+                            <td><?= $block->escapeHtml($attr['label'] ?? '') ?></td>
+                            <td><?= $block->escapeHtml($attr['type'] ?? '') ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        <?php endif; ?>
+
+        <!-- Critical Attributes -->
+        <?php if (!empty($criticalAttributes)): ?>
+        <div class="admin__data-grid-wrap">
+            <div class="admin__page-section-item-title">
+                <span class="title"><?= $block->escapeHtml(__('Critical Attributes (Below %1%)', $criticalThreshold)) ?></span>
+            </div>
+            <table class="data-grid">
+                <thead>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Attribute Code')) ?></th>
+                        <th><?= $block->escapeHtml(__('Label')) ?></th>
+                        <th><?= $block->escapeHtml(__('Fill Rate')) ?></th>
+                        <th><?= $block->escapeHtml(__('Filled')) ?></th>
+                        <th><?= $block->escapeHtml(__('Total')) ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($criticalAttributes as $attr): ?>
+                        <tr>
+                            <td><?= $block->escapeHtml($attr['code'] ?? '') ?></td>
+                            <td><?= $block->escapeHtml($attr['label'] ?? '') ?></td>
+                            <td class="critical"><?= $block->escapeHtml(number_format($attr['rate'] ?? 0, 1)) ?>%</td>
+                            <td><?= $block->escapeHtml($attr['filled'] ?? 0) ?></td>
+                            <td><?= $block->escapeHtml($attr['total'] ?? 0) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        <?php endif; ?>
+
+        <!-- All Attributes -->
+        <div class="admin__data-grid-wrap">
+            <div class="admin__page-section-item-title">
+                <span class="title"><?= $block->escapeHtml(__('All Attributes')) ?></span>
+            </div>
+            <?php if (empty($fillRates)): ?>
+                <p><?= $block->escapeHtml(__('No attributes found.')) ?></p>
+            <?php else: ?>
+                <table class="data-grid">
+                    <thead>
+                        <tr>
+                            <th><?= $block->escapeHtml(__('Attribute Code')) ?></th>
+                            <th><?= $block->escapeHtml(__('Label')) ?></th>
+                            <th><?= $block->escapeHtml(__('Fill Rate')) ?></th>
+                            <th><?= $block->escapeHtml(__('Filled')) ?></th>
+                            <th><?= $block->escapeHtml(__('Total')) ?></th>
+                            <th><?= $block->escapeHtml(__('Status')) ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($fillRates as $attr): ?>
+                            <?php
+                            $rate = $attr['rate'] ?? 0;
+                            $status = 'healthy';
+                            if ($rate < $criticalThreshold) {
+                                $status = 'critical';
+                            } elseif ($rate < $warningThreshold) {
+                                $status = 'warning';
+                            }
+                            ?>
+                            <tr>
+                                <td><?= $block->escapeHtml($attr['code'] ?? '') ?></td>
+                                <td><?= $block->escapeHtml($attr['label'] ?? '') ?></td>
+                                <td class="<?= $block->escapeHtml($status) ?>"><?= $block->escapeHtml(number_format($rate, 1)) ?>%</td>
+                                <td><?= $block->escapeHtml($attr['filled'] ?? 0) ?></td>
+                                <td><?= $block->escapeHtml($attr['total'] ?? 0) ?></td>
+                                <td class="<?= $block->escapeHtml($status) ?>"><?= $block->escapeHtml(ucfirst($status)) ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>

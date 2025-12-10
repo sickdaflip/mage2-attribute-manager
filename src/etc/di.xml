@@ -69,8 +69,6 @@
                 <item name="flipdev_attributes_fillrate" xsi:type="object">FlipDev\AttributeManager\Console\Command\FillRateCommand</item>
                 <item name="flipdev_attributes_chaos" xsi:type="object">FlipDev\AttributeManager\Console\Command\ChaosCommand</item>
                 <item name="flipdev_attributes_duplicates" xsi:type="object">FlipDev\AttributeManager\Console\Command\DuplicatesCommand</item>
-                <item name="flipdev_attributes_migrate" xsi:type="object">FlipDev\AttributeManager\Console\Command\MigrateCommand</item>
-                <item name="flipdev_attributes_misassigned" xsi:type="object">FlipDev\AttributeManager\Console\Command\MisassignedCommand</item>
             </argument>
         </arguments>
     </type>

@@ -404,7 +404,7 @@ class SetMigration implements SetMigrationInterface
     /**
      * @inheritdoc
      */
-    public function createMigrationProposal(array $productIds, int $targetSetId, string $reason): int
+    public function createMigrationProposal(array $productIds, int $targetSetId, string $reason = ''): int
     {
         // This would create a record in a custom table for approval workflow
         // For now, return a mock proposal ID

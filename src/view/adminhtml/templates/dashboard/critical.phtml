@@ -1,0 +1,33 @@
+<?php
+/**
+ * @var \FlipDev\AttributeManager\Block\Adminhtml\Dashboard\CriticalAttributes $block
+ */
+$criticalAttributes = $block->getCriticalAttributes();
+?>
+<div class="admin__page-section-title">
+    <span class="title"><?= $block->escapeHtml(__('Critical Attributes')) ?></span>
+</div>
+<div class="admin__data-grid-wrap">
+    <?php if (empty($criticalAttributes)): ?>
+        <p class="message success"><?= $block->escapeHtml(__('No critical attributes found. All attributes are above the critical threshold.')) ?></p>
+    <?php else: ?>
+        <table class="data-grid">
+            <thead>
+                <tr>
+                    <th><?= $block->escapeHtml(__('Attribute Code')) ?></th>
+                    <th><?= $block->escapeHtml(__('Label')) ?></th>
+                    <th><?= $block->escapeHtml(__('Fill Rate')) ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($criticalAttributes as $attr): ?>
+                    <tr>
+                        <td><?= $block->escapeHtml($attr['code'] ?? '') ?></td>
+                        <td><?= $block->escapeHtml($attr['label'] ?? '') ?></td>
+                        <td class="critical"><?= $block->escapeHtml(number_format($attr['rate'] ?? 0, 1)) ?>%</td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
+</div>

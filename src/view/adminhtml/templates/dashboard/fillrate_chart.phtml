@@ -1,0 +1,33 @@
+<?php
+/**
+ * @var \FlipDev\AttributeManager\Block\Adminhtml\Dashboard\FillRateChart $block
+ */
+$fillRatesBySet = $block->getFillRatesBySet();
+?>
+<div class="admin__page-section-title">
+    <span class="title"><?= $block->escapeHtml(__('Fill Rate by Attribute Set')) ?></span>
+</div>
+<div class="admin__data-grid-wrap">
+    <?php if (empty($fillRatesBySet)): ?>
+        <p><?= $block->escapeHtml(__('No data available.')) ?></p>
+    <?php else: ?>
+        <table class="data-grid">
+            <thead>
+                <tr>
+                    <th><?= $block->escapeHtml(__('Attribute Set')) ?></th>
+                    <th><?= $block->escapeHtml(__('Product Count')) ?></th>
+                    <th><?= $block->escapeHtml(__('Average Fill Rate')) ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($fillRatesBySet as $set): ?>
+                    <tr>
+                        <td><?= $block->escapeHtml($set['name'] ?? 'Unknown') ?></td>
+                        <td><?= $block->escapeHtml($set['product_count'] ?? 0) ?></td>
+                        <td><?= $block->escapeHtml(number_format($set['avg_fill_rate'] ?? 0, 1)) ?>%</td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
+</div>

@@ -47,15 +47,18 @@ class DuplicateDetector implements DuplicateDetectorInterface
      * @inheritdoc
      */
     public function findDuplicates(
-        string $entityTypeCode = 'catalog_product',
-        float $threshold = 0.7,
-        array $types = ['code', 'label', 'values']
+        string $entityTypeCode,
+        float $threshold = 70.0,
+        array $types = [DuplicateDetectorInterface::SIMILARITY_CODE, DuplicateDetectorInterface::SIMILARITY_LABEL]
     ): array {
         $this->logger->info('DuplicateDetector: Starting scan', [
             'entity_type' => $entityTypeCode,
             'threshold' => $threshold,
             'types' => $types
         ]);
+
+        // Convert percentage (0-100) to decimal (0.0-1.0) for internal calculations
+        $threshold = $threshold / 100;
 
         $connection = $this->resourceConnection->getConnection();
         $entityType = $this->eavConfig->getEntityType($entityTypeCode);
@@ -96,8 +99,11 @@ class DuplicateDetector implements DuplicateDetectorInterface
     /**
      * @inheritdoc
      */
-    public function findSimilarTo(int $attributeId, float $threshold = 0.7): array
+    public function findSimilarTo(int $attributeId, float $threshold = 70.0): array
     {
+        // Convert percentage (0-100) to decimal (0.0-1.0) for internal calculations
+        $threshold = $threshold / 100;
+
         $connection = $this->resourceConnection->getConnection();
         $attributeTable = $this->resourceConnection->getTableName('eav_attribute');
 
@@ -187,7 +193,7 @@ class DuplicateDetector implements DuplicateDetectorInterface
     /**
      * @inheritdoc
      */
-    public function getKnownPatterns(string $entityTypeCode = 'catalog_product'): array
+    public function getKnownPatterns(string $entityTypeCode): array
     {
         return self::KNOWN_PATTERNS;
     }

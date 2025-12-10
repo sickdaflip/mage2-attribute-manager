@@ -9,8 +9,8 @@
     <acl>
         <resources>
             <resource id="Magento_Backend::admin">
-                <resource id="FlipDev_Core::flipdev" title="FlipDev Extensions">
-                    <resource id="FlipDev_AttributeManager::attribute_manager" title="Attribute Manager" sortOrder="20">
+                <resource id="Magento_Backend::stores">
+                    <resource id="FlipDev_AttributeManager::attribute_manager" title="Attribute Manager" sortOrder="70">
                         <resource id="FlipDev_AttributeManager::dashboard" title="Dashboard" sortOrder="10"/>
                         <resource id="FlipDev_AttributeManager::analysis" title="Analysis" sortOrder="20">
                             <resource id="FlipDev_AttributeManager::analysis_fillrate" title="Fill-Rate Analysis" sortOrder="10"/>
@@ -28,12 +28,6 @@
                         </resource>
                         <resource id="FlipDev_AttributeManager::approval" title="Approval Queue" sortOrder="50"/>
                         <resource id="FlipDev_AttributeManager::config" title="Configuration" sortOrder="100"/>
-                    </resource>
-                </resource>
-                <!-- Also under Stores > Attributes for quick access -->
-                <resource id="Magento_Catalog::catalog">
-                    <resource id="Magento_Catalog::attributes_attributes">
-                        <resource id="FlipDev_AttributeManager::quick_analysis" title="FlipDev Analysis" sortOrder="100"/>
                     </resource>
                 </resource>
             </resource>

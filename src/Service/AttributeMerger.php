@@ -25,11 +25,6 @@ use Psr\Log\LoggerInterface;
  */
 class AttributeMerger implements AttributeMergerInterface
 {
-    public const STRATEGY_KEEP_TARGET = 'keep_target';
-    public const STRATEGY_KEEP_SOURCE = 'keep_source';
-    public const STRATEGY_KEEP_BOTH = 'keep_both';
-    public const STRATEGY_PREFER_FILLED = 'prefer_filled';
-
     public function __construct(
         private readonly ResourceConnection $resourceConnection,
         private readonly EavConfig $eavConfig,
@@ -112,14 +107,14 @@ class AttributeMerger implements AttributeMergerInterface
     public function executeMerge(
         array $sourceAttributeIds,
         int $targetAttributeId,
-        string $conflictStrategy = self::STRATEGY_PREFER_FILLED,
-        bool $deleteSourceAfterMerge = false
+        string $conflictStrategy = AttributeMergerInterface::CONFLICT_KEEP_TARGET,
+        bool $deleteSource = false
     ): array {
         $this->logger->info('AttributeMerger: Starting merge', [
             'sources' => $sourceAttributeIds,
             'target' => $targetAttributeId,
             'strategy' => $conflictStrategy,
-            'delete_source' => $deleteSourceAfterMerge
+            'delete_source' => $deleteSource
         ]);
 
         $connection = $this->resourceConnection->getConnection();
@@ -184,7 +179,7 @@ class AttributeMerger implements AttributeMergerInterface
                     'options_merged' => count($optionMapping)
                 ];
 
-                if ($deleteSourceAfterMerge) {
+                if ($deleteSource) {
                     $this->deleteAttribute($connection, (int) $sourceId);
                     $results['sources_deleted'][] = $sourceId;
                 }
@@ -205,7 +200,7 @@ class AttributeMerger implements AttributeMergerInterface
     /**
      * @inheritdoc
      */
-    public function mergeOptions(int $sourceAttributeId, int $targetAttributeId, array $optionMapping): array
+    public function mergeOptions(int $sourceAttributeId, int $targetAttributeId, array $optionMapping = []): array
     {
         $connection = $this->resourceConnection->getConnection();
         $optionTable = $this->resourceConnection->getTableName('eav_attribute_option');
@@ -253,7 +248,7 @@ class AttributeMerger implements AttributeMergerInterface
     /**
      * @inheritdoc
      */
-    public function createMergeProposal(array $sourceAttributeIds, int $targetAttributeId, string $conflictStrategy): int
+    public function createMergeProposal(array $sourceAttributeIds, int $targetAttributeId, string $conflictStrategy = AttributeMergerInterface::CONFLICT_KEEP_TARGET): int
     {
         $this->logger->info('AttributeMerger: Proposal created', [
             'sources' => $sourceAttributeIds,
@@ -498,20 +493,24 @@ class AttributeMerger implements AttributeMergerInterface
                 $shouldMigrate = true;
             } else {
                 switch ($conflictStrategy) {
-                    case self::STRATEGY_KEEP_SOURCE:
+                    case AttributeMergerInterface::CONFLICT_KEEP_SOURCE:
                         $shouldMigrate = true;
                         break;
-                    case self::STRATEGY_KEEP_TARGET:
+                    case AttributeMergerInterface::CONFLICT_KEEP_TARGET:
                         $shouldMigrate = false;
                         break;
-                    case self::STRATEGY_PREFER_FILLED:
-                        $shouldMigrate = !empty($valueToMigrate) && empty($existingValue);
-                        break;
-                    case self::STRATEGY_KEEP_BOTH:
+                    case AttributeMergerInterface::CONFLICT_CONCATENATE:
                         if (in_array($backendType, ['varchar', 'text'])) {
                             $valueToMigrate = $existingValue . ' | ' . $valueToMigrate;
                             $shouldMigrate = true;
                         }
+                        break;
+                    case AttributeMergerInterface::CONFLICT_SKIP:
+                        $shouldMigrate = false;
+                        break;
+                    default:
+                        // Default behavior: prefer filled values
+                        $shouldMigrate = !empty($valueToMigrate) && empty($existingValue);
                         break;
                 }
             }
