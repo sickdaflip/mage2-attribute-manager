@@ -1,5 +1,5 @@
 {
-    "name": "flipdev/module-attribute-manager",
+    "name": "sickdaflip/mage2-attribute-manager",
     "description": "Comprehensive EAV attribute management for Magento 2 - Fill-rate analysis, consolidation, migration & approval workflows",
     "type": "magento2-module",
     "version": "1.0.0",
@@ -10,7 +10,6 @@
             "email": "philippbreitsprecher@gmail.com"
         }
     ],
-    "minimum-stability": "stable",
     "require": {
         "php": "^8.4",
         "magento/framework": "^103.0",
