@@ -21,5 +21,5 @@ use Magento\Framework\Component\ComponentRegistrar;
 ComponentRegistrar::register(
     ComponentRegistrar::MODULE,
     'FlipDev_AttributeManager',
-    __DIR__ . '/src'
+    __DIR__
 );
