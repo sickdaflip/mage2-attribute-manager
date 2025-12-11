@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * FlipDev_AttributeManager - Fill-Rate Grid
+ */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">flipdev_fillrate_listing.flipdev_fillrate_listing_data_source</item>
+        </item>
+    </argument>
+
+    <settings>
+        <buttons>
+            <button name="export">
+                <url path="*/*/export"/>
+                <class>action-secondary</class>
+                <label translate="true">Export CSV</label>
+            </button>
+        </buttons>
+        <spinner>flipdev_fillrate_columns</spinner>
+        <deps>
+            <dep>flipdev_fillrate_listing.flipdev_fillrate_listing_data_source</dep>
+        </deps>
+    </settings>
+
+    <dataSource name="flipdev_fillrate_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">attribute_code</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>FlipDev_AttributeManager::analysis_fillrate</aclResource>
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="flipdev_fillrate_listing_data_source">
+            <settings>
+                <requestFieldName>code</requestFieldName>
+                <primaryFieldName>attribute_code</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filterSearch name="fulltext"/>
+        <filters name="listing_filters">
+            <filterRange name="fill_rate">
+                <settings>
+                    <dataScope>fill_rate</dataScope>
+                    <label translate="true">Fill Rate</label>
+                </settings>
+            </filterRange>
+        </filters>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+
+    <columns name="flipdev_fillrate_columns">
+        <column name="attribute_code">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Attribute Code</label>
+                <sorting>asc</sorting>
+            </settings>
+        </column>
+
+        <column name="frontend_label">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Label</label>
+            </settings>
+        </column>
+
+        <column name="fill_rate">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Fill Rate (%)</label>
+                <sorting>desc</sorting>
+            </settings>
+        </column>
+
+        <column name="filled_count">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Filled</label>
+            </settings>
+        </column>
+
+        <column name="total_count">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Total Products</label>
+            </settings>
+        </column>
+
+        <column name="status">
+            <settings>
+                <filter>select</filter>
+                <options class="FlipDev\AttributeManager\Model\Config\Source\FillRateStatus"/>
+                <dataType>select</dataType>
+                <label translate="true">Status</label>
+            </settings>
+        </column>
+    </columns>
+</listing>

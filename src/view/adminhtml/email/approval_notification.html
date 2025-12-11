@@ -1,0 +1,79 @@
+<!--
+/**
+ * FlipDev_AttributeManager - Approval Notification Email Template
+ *
+ * @category  FlipDev
+ * @package   FlipDev_AttributeManager
+ * @author    Philipp Breitsprecher <philippbreitsprecher@gmail.com>
+ * @copyright Copyright (c) 2024-2025 FlipDev
+ */
+-->
+<!--@subject {{trans "FlipDev Attribute Manager - Approval %action" action=$action}} @-->
+<!--@vars {
+"var proposal_id":"Proposal ID",
+"var type":"Proposal Type",
+"var reason":"Reason for Change",
+"var action":"Action (created/approved/rejected)",
+"var created_at":"Created At"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<table>
+    <tr class="email-intro">
+        <td>
+            <p class="greeting">{{trans "Hello,"}}</p>
+            <p>
+                {{trans "A new approval proposal has been %action for the FlipDev Attribute Manager." action=$action}}
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h2>{{trans "Proposal Details"}}</h2>
+            <table class="email-non-inline">
+                <tr>
+                    <th>{{trans "Proposal ID:"}}</th>
+                    <td>{{var proposal_id}}</td>
+                </tr>
+                <tr>
+                    <th>{{trans "Type:"}}</th>
+                    <td>{{var type}}</td>
+                </tr>
+                <tr>
+                    <th>{{trans "Reason:"}}</th>
+                    <td>{{var reason}}</td>
+                </tr>
+                <tr>
+                    <th>{{trans "Action:"}}</th>
+                    <td>{{var action}}</td>
+                </tr>
+                <tr>
+                    <th>{{trans "Created At:"}}</th>
+                    <td>{{var created_at}}</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td class="email-summary">
+            <p>
+                {{trans "Please review this proposal in the admin panel:"}}
+            </p>
+            <p>
+                <a href="{{store url='flipdev_attributes/approval/index'}}">
+                    {{trans "View Approval Queue"}}
+                </a>
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td class="email-footer">
+            <p>
+                {{trans "This is an automated notification from the FlipDev Attribute Manager module."}}
+            </p>
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer_template"}}

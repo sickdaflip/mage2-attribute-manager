@@ -1,0 +1,77 @@
+{
+    "flipdev_approval_queue": {
+        "column": {
+            "proposal_id": true,
+            "type": true,
+            "data": true,
+            "reason": true,
+            "status": true,
+            "created_by": true,
+            "created_at": true,
+            "approved_by": true,
+            "approved_at": true,
+            "approval_comment": true,
+            "rejected_by": true,
+            "rejected_at": true,
+            "rejection_reason": true,
+            "executed_at": true,
+            "execution_result": true
+        },
+        "index": {
+            "FLIPDEV_APPROVAL_QUEUE_STATUS": true,
+            "FLIPDEV_APPROVAL_QUEUE_TYPE": true,
+            "FLIPDEV_APPROVAL_QUEUE_CREATED_AT": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "flipdev_merge_log": {
+        "column": {
+            "log_id": true,
+            "proposal_id": true,
+            "source_attributes": true,
+            "target_attribute_id": true,
+            "conflict_strategy": true,
+            "deleted_sources": true,
+            "values_migrated": true,
+            "options_merged": true,
+            "backup_data": true,
+            "executed_at": true,
+            "executed_by": true,
+            "status": true
+        },
+        "index": {
+            "FLIPDEV_MERGE_LOG_TARGET_ATTRIBUTE": true,
+            "FLIPDEV_MERGE_LOG_EXECUTED_AT": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FLIPDEV_MERGE_LOG_PROPOSAL_ID": true
+        }
+    },
+    "flipdev_migration_proposal": {
+        "column": {
+            "proposal_id": true,
+            "approval_queue_id": true,
+            "source_set_id": true,
+            "target_set_id": true,
+            "product_ids": true,
+            "product_count": true,
+            "preserve_values": true,
+            "migration_rules": true,
+            "created_at": true,
+            "executed_at": true,
+            "status": true,
+            "execution_result": true
+        },
+        "index": {
+            "FLIPDEV_MIGRATION_PROPOSAL_TARGET_SET": true,
+            "FLIPDEV_MIGRATION_PROPOSAL_STATUS": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FLIPDEV_MIGRATION_PROPOSAL_APPROVAL_QUEUE_ID": true
+        }
+    }
+}

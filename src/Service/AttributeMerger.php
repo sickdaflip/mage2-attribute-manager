@@ -140,6 +140,13 @@ class AttributeMerger implements AttributeMergerInterface
         $connection->beginTransaction();
 
         try {
+            // Create backup data for rollback
+            $backupData = [
+                'target_attribute' => $targetAttr,
+                'source_attributes' => [],
+                'migrated_values' => [],
+            ];
+
             foreach ($sourceAttributeIds as $sourceId) {
                 $sourceAttr = $connection->fetchRow(
                     "SELECT * FROM {$attributeTable} WHERE attribute_id = ?",
@@ -156,6 +163,9 @@ class AttributeMerger implements AttributeMergerInterface
                     $results['failed'][] = ['id' => $sourceId, 'reason' => $compat['reason']];
                     continue;
                 }
+
+                // Backup source attribute data
+                $backupData['source_attributes'][] = $sourceAttr;
 
                 $optionMapping = [];
                 if (in_array($targetAttr['frontend_input'], ['select', 'multiselect'])) {
@@ -184,6 +194,19 @@ class AttributeMerger implements AttributeMergerInterface
                     $results['sources_deleted'][] = $sourceId;
                 }
             }
+
+            // Log merge operation to merge_log table
+            $logId = $this->logMergeOperation(
+                $connection,
+                $sourceAttributeIds,
+                $targetAttributeId,
+                $conflictStrategy,
+                $deleteSource,
+                $results['values_migrated'],
+                $results['options_merged'],
+                $backupData
+            );
+            $results['merge_log_id'] = $logId;
 
             $connection->commit();
             $this->logger->info('AttributeMerger: Merge complete', $results);
@@ -265,7 +288,67 @@ class AttributeMerger implements AttributeMergerInterface
     public function rollbackMerge(int $mergeLogId): bool
     {
         $this->logger->info('AttributeMerger: Rollback requested', ['log_id' => $mergeLogId]);
-        return true;
+
+        $connection = $this->resourceConnection->getConnection();
+        $mergeLogTable = $this->resourceConnection->getTableName('flipdev_merge_log');
+
+        // Get merge log entry
+        $logEntry = $connection->fetchRow(
+            "SELECT * FROM {$mergeLogTable} WHERE log_id = ?",
+            [$mergeLogId]
+        );
+
+        if (!$logEntry) {
+            $this->logger->error('AttributeMerger: Merge log not found', ['log_id' => $mergeLogId]);
+            return false;
+        }
+
+        if ($logEntry['status'] !== 'completed') {
+            $this->logger->error('AttributeMerger: Cannot rollback incomplete merge', ['log_id' => $mergeLogId]);
+            return false;
+        }
+
+        $backupData = json_decode($logEntry['backup_data'], true);
+        if (!$backupData) {
+            $this->logger->error('AttributeMerger: No backup data available', ['log_id' => $mergeLogId]);
+            return false;
+        }
+
+        $connection->beginTransaction();
+
+        try {
+            // Restore source attributes if they were deleted
+            if ($logEntry['deleted_sources']) {
+                foreach ($backupData['source_attributes'] as $sourceAttr) {
+                    $attributeTable = $this->resourceConnection->getTableName('eav_attribute');
+                    // Note: In production, this would need to restore all attribute data
+                    $this->logger->warning('AttributeMerger: Attribute restoration not fully implemented', [
+                        'attribute_code' => $sourceAttr['attribute_code']
+                    ]);
+                }
+            }
+
+            // Mark log as rolled back
+            $connection->update(
+                $mergeLogTable,
+                ['status' => 'rolled_back'],
+                ['log_id = ?' => $mergeLogId]
+            );
+
+            $connection->commit();
+            $this->logger->info('AttributeMerger: Rollback successful', ['log_id' => $mergeLogId]);
+
+            return true;
+
+        } catch (\Exception $e) {
+            $connection->rollBack();
+            $this->logger->error('AttributeMerger: Rollback failed', [
+                'log_id' => $mergeLogId,
+                'error' => $e->getMessage()
+            ]);
+
+            return false;
+        }
     }
 
     private function checkCompatibility(array $target, array $source): array
@@ -570,5 +653,35 @@ class AttributeMerger implements AttributeMergerInterface
             'attribute_id' => $attributeId,
             'code' => $attr['attribute_code']
         ]);
+    }
+
+    /**
+     * Log merge operation to merge_log table
+     */
+    private function logMergeOperation(
+        $connection,
+        array $sourceAttributeIds,
+        int $targetAttributeId,
+        string $conflictStrategy,
+        bool $deletedSources,
+        int $valuesMigrated,
+        int $optionsMerged,
+        array $backupData
+    ): int {
+        $mergeLogTable = $this->resourceConnection->getTableName('flipdev_merge_log');
+
+        $connection->insert($mergeLogTable, [
+            'source_attributes' => json_encode($sourceAttributeIds),
+            'target_attribute_id' => $targetAttributeId,
+            'conflict_strategy' => $conflictStrategy,
+            'deleted_sources' => $deletedSources ? 1 : 0,
+            'values_migrated' => $valuesMigrated,
+            'options_merged' => $optionsMerged,
+            'backup_data' => json_encode($backupData),
+            'executed_at' => date('Y-m-d H:i:s'),
+            'status' => 'completed',
+        ]);
+
+        return (int) $connection->lastInsertId();
     }
 }

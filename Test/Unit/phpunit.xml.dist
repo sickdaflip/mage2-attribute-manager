@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * FlipDev_AttributeManager - PHPUnit Configuration
+ */
+-->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+         bootstrap="./bootstrap.php"
+         colors="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutTestsThatDoNotTestAnything="false"
+         verbose="true">
+    <testsuites>
+        <testsuite name="FlipDev_AttributeManager Unit Tests">
+            <directory>./Service</directory>
+            <directory>./Model</directory>
+        </testsuite>
+    </testsuites>
+    <coverage>
+        <include>
+            <directory suffix=".php">../../Service</directory>
+            <directory suffix=".php">../../Model</directory>
+        </include>
+        <exclude>
+            <directory>../../Test</directory>
+        </exclude>
+    </coverage>
+    <php>
+        <ini name="date.timezone" value="UTC"/>
+        <ini name="xdebug.max_nesting_level" value="200"/>
+    </php>
+</phpunit>

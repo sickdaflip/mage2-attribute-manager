@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * FlipDev_AttributeManager - Approval Queue Grid
+ */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">flipdev_approval_queue_listing.flipdev_approval_queue_listing_data_source</item>
+        </item>
+    </argument>
+
+    <settings>
+        <buttons>
+            <button name="refresh">
+                <url path="*/*/index"/>
+                <class>primary</class>
+                <label translate="true">Refresh</label>
+            </button>
+        </buttons>
+        <spinner>flipdev_approval_queue_columns</spinner>
+        <deps>
+            <dep>flipdev_approval_queue_listing.flipdev_approval_queue_listing_data_source</dep>
+        </deps>
+    </settings>
+
+    <dataSource name="flipdev_approval_queue_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">proposal_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>FlipDev_AttributeManager::approval</aclResource>
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="flipdev_approval_queue_listing_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>proposal_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filterSearch name="fulltext"/>
+        <filters name="listing_filters">
+            <filterSelect name="status" provider="${ $.parentName }">
+                <settings>
+                    <caption translate="true">Status</caption>
+                    <dataScope>status</dataScope>
+                    <label translate="true">Status</label>
+                    <options class="FlipDev\AttributeManager\Model\Config\Source\ApprovalStatus"/>
+                </settings>
+            </filterSelect>
+            <filterSelect name="type" provider="${ $.parentName }">
+                <settings>
+                    <caption translate="true">Type</caption>
+                    <dataScope>type</dataScope>
+                    <label translate="true">Type</label>
+                    <options class="FlipDev\AttributeManager\Model\Config\Source\ProposalType"/>
+                </settings>
+            </filterSelect>
+        </filters>
+        <massaction name="listing_massaction">
+            <action name="approve">
+                <settings>
+                    <confirm>
+                        <message translate="true">Are you sure you want to approve selected proposals?</message>
+                        <title translate="true">Approve Proposals</title>
+                    </confirm>
+                    <url path="flipdev_attributes/approval/massApprove"/>
+                    <type>approve</type>
+                    <label translate="true">Approve</label>
+                </settings>
+            </action>
+            <action name="reject">
+                <settings>
+                    <confirm>
+                        <message translate="true">Are you sure you want to reject selected proposals?</message>
+                        <title translate="true">Reject Proposals</title>
+                    </confirm>
+                    <url path="flipdev_attributes/approval/massReject"/>
+                    <type>reject</type>
+                    <label translate="true">Reject</label>
+                </settings>
+            </action>
+            <action name="delete">
+                <settings>
+                    <confirm>
+                        <message translate="true">Are you sure you want to delete selected proposals?</message>
+                        <title translate="true">Delete Proposals</title>
+                    </confirm>
+                    <url path="flipdev_attributes/approval/massDelete"/>
+                    <type>delete</type>
+                    <label translate="true">Delete</label>
+                </settings>
+            </action>
+        </massaction>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+
+    <columns name="flipdev_approval_queue_columns">
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>proposal_id</indexField>
+            </settings>
+        </selectionsColumn>
+
+        <column name="proposal_id">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">ID</label>
+                <sorting>desc</sorting>
+            </settings>
+        </column>
+
+        <column name="type">
+            <settings>
+                <filter>select</filter>
+                <options class="FlipDev\AttributeManager\Model\Config\Source\ProposalType"/>
+                <dataType>select</dataType>
+                <label translate="true">Type</label>
+            </settings>
+        </column>
+
+        <column name="reason">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Reason</label>
+            </settings>
+        </column>
+
+        <column name="status">
+            <settings>
+                <filter>select</filter>
+                <options class="FlipDev\AttributeManager\Model\Config\Source\ApprovalStatus"/>
+                <dataType>select</dataType>
+                <label translate="true">Status</label>
+            </settings>
+        </column>
+
+        <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Created At</label>
+            </settings>
+        </column>
+
+        <column name="approved_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Approved At</label>
+            </settings>
+        </column>
+
+        <actionsColumn name="actions" class="FlipDev\AttributeManager\Ui\Component\Listing\Column\ApprovalActions">
+            <settings>
+                <indexField>proposal_id</indexField>
+            </settings>
+        </actionsColumn>
+    </columns>
+</listing>

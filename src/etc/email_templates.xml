@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * FlipDev_AttributeManager - Email Templates
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="flipdev_approval_notification" label="FlipDev Approval Notification" file="approval_notification.html" type="html" module="FlipDev_AttributeManager" area="adminhtml"/>
+</config>

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * FlipDev_AttributeManager - Events Configuration
+ *
+ * Available Events for Observers:
+ * - flipdev_attributes_fillrate_calculated
+ * - flipdev_attributes_duplicates_found
+ * - flipdev_attributes_chaos_detected
+ * - flipdev_attributes_merge_before
+ * - flipdev_attributes_merge_after
+ * - flipdev_attributes_migration_before
+ * - flipdev_attributes_migration_after
+ * - flipdev_attributes_approval_created
+ * - flipdev_attributes_approval_approved
+ * - flipdev_attributes_approval_rejected
+ * - flipdev_attributes_approval_executed
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <!-- Example observer configuration (commented out) -->
+    <!--
+    <event name="flipdev_attributes_fillrate_calculated">
+        <observer name="custom_fillrate_observer" instance="Vendor\Module\Observer\FillRateObserver"/>
+    </event>
+    -->
+</config>

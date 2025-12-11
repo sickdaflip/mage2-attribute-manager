@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * FlipDev_AttributeManager - Database Schema
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+
+    <!-- Approval Queue Table -->
+    <table name="flipdev_approval_queue" resource="default" engine="innodb" comment="Approval Queue for Attribute Operations">
+        <column xsi:type="int" name="proposal_id" unsigned="true" nullable="false" identity="true" comment="Proposal ID"/>
+        <column xsi:type="varchar" name="type" nullable="false" length="50" comment="Proposal Type (merge, migration, delete)"/>
+        <column xsi:type="text" name="data" nullable="false" comment="Proposal Data (JSON)"/>
+        <column xsi:type="text" name="reason" nullable="true" comment="Reason for Change"/>
+        <column xsi:type="varchar" name="status" nullable="false" length="20" default="pending" comment="Status"/>
+        <column xsi:type="int" name="created_by" unsigned="true" nullable="true" comment="Created By User ID"/>
+        <column xsi:type="timestamp" name="created_at" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="int" name="approved_by" unsigned="true" nullable="true" comment="Approved By User ID"/>
+        <column xsi:type="timestamp" name="approved_at" nullable="true" comment="Approved At"/>
+        <column xsi:type="text" name="approval_comment" nullable="true" comment="Approval Comment"/>
+        <column xsi:type="int" name="rejected_by" unsigned="true" nullable="true" comment="Rejected By User ID"/>
+        <column xsi:type="timestamp" name="rejected_at" nullable="true" comment="Rejected At"/>
+        <column xsi:type="text" name="rejection_reason" nullable="true" comment="Rejection Reason"/>
+        <column xsi:type="timestamp" name="executed_at" nullable="true" comment="Executed At"/>
+        <column xsi:type="text" name="execution_result" nullable="true" comment="Execution Result (JSON)"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="proposal_id"/>
+        </constraint>
+
+        <index referenceId="FLIPDEV_APPROVAL_QUEUE_STATUS" indexType="btree">
+            <column name="status"/>
+        </index>
+        <index referenceId="FLIPDEV_APPROVAL_QUEUE_TYPE" indexType="btree">
+            <column name="type"/>
+        </index>
+        <index referenceId="FLIPDEV_APPROVAL_QUEUE_CREATED_AT" indexType="btree">
+            <column name="created_at"/>
+        </index>
+    </table>
+
+    <!-- Merge Log Table -->
+    <table name="flipdev_merge_log" resource="default" engine="innodb" comment="Attribute Merge Operation Log">
+        <column xsi:type="int" name="log_id" unsigned="true" nullable="false" identity="true" comment="Log ID"/>
+        <column xsi:type="int" name="proposal_id" unsigned="true" nullable="true" comment="Related Proposal ID"/>
+        <column xsi:type="text" name="source_attributes" nullable="false" comment="Source Attribute IDs (JSON array)"/>
+        <column xsi:type="int" name="target_attribute_id" unsigned="true" nullable="false" comment="Target Attribute ID"/>
+        <column xsi:type="varchar" name="conflict_strategy" nullable="false" length="50" comment="Conflict Resolution Strategy"/>
+        <column xsi:type="boolean" name="deleted_sources" nullable="false" default="false" comment="Source Attributes Deleted"/>
+        <column xsi:type="int" name="values_migrated" unsigned="true" nullable="false" default="0" comment="Number of Values Migrated"/>
+        <column xsi:type="int" name="options_merged" unsigned="true" nullable="false" default="0" comment="Number of Options Merged"/>
+        <column xsi:type="text" name="backup_data" nullable="true" comment="Backup Data for Rollback (JSON)"/>
+        <column xsi:type="timestamp" name="executed_at" nullable="false" default="CURRENT_TIMESTAMP" comment="Executed At"/>
+        <column xsi:type="int" name="executed_by" unsigned="true" nullable="true" comment="Executed By User ID"/>
+        <column xsi:type="varchar" name="status" nullable="false" length="20" default="completed" comment="Status"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="log_id"/>
+        </constraint>
+
+        <constraint xsi:type="foreign" referenceId="FLIPDEV_MERGE_LOG_PROPOSAL_ID"
+                    table="flipdev_merge_log" column="proposal_id"
+                    referenceTable="flipdev_approval_queue" referenceColumn="proposal_id"
+                    onDelete="SET NULL"/>
+
+        <index referenceId="FLIPDEV_MERGE_LOG_TARGET_ATTRIBUTE" indexType="btree">
+            <column name="target_attribute_id"/>
+        </index>
+        <index referenceId="FLIPDEV_MERGE_LOG_EXECUTED_AT" indexType="btree">
+            <column name="executed_at"/>
+        </index>
+    </table>
+
+    <!-- Migration Proposal Table -->
+    <table name="flipdev_migration_proposal" resource="default" engine="innodb" comment="Set Migration Proposal Details">
+        <column xsi:type="int" name="proposal_id" unsigned="true" nullable="false" identity="true" comment="Proposal ID"/>
+        <column xsi:type="int" name="approval_queue_id" unsigned="true" nullable="true" comment="Related Approval Queue ID"/>
+        <column xsi:type="int" name="source_set_id" unsigned="true" nullable="true" comment="Source Attribute Set ID"/>
+        <column xsi:type="int" name="target_set_id" unsigned="true" nullable="false" comment="Target Attribute Set ID"/>
+        <column xsi:type="text" name="product_ids" nullable="false" comment="Product IDs to Migrate (JSON array)"/>
+        <column xsi:type="int" name="product_count" unsigned="true" nullable="false" default="0" comment="Number of Products"/>
+        <column xsi:type="boolean" name="preserve_values" nullable="false" default="true" comment="Preserve Attribute Values"/>
+        <column xsi:type="text" name="migration_rules" nullable="true" comment="Migration Rules (JSON)"/>
+        <column xsi:type="timestamp" name="created_at" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="timestamp" name="executed_at" nullable="true" comment="Executed At"/>
+        <column xsi:type="varchar" name="status" nullable="false" length="20" default="pending" comment="Status"/>
+        <column xsi:type="text" name="execution_result" nullable="true" comment="Execution Result (JSON)"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="proposal_id"/>
+        </constraint>
+
+        <constraint xsi:type="foreign" referenceId="FLIPDEV_MIGRATION_PROPOSAL_APPROVAL_QUEUE_ID"
+                    table="flipdev_migration_proposal" column="approval_queue_id"
+                    referenceTable="flipdev_approval_queue" referenceColumn="proposal_id"
+                    onDelete="CASCADE"/>
+
+        <index referenceId="FLIPDEV_MIGRATION_PROPOSAL_TARGET_SET" indexType="btree">
+            <column name="target_set_id"/>
+        </index>
+        <index referenceId="FLIPDEV_MIGRATION_PROPOSAL_STATUS" indexType="btree">
+            <column name="status"/>
+        </index>
+    </table>
+
+</schema>

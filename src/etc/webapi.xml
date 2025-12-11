@@ -1,0 +1,212 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * FlipDev_AttributeManager - Web API Configuration
+ */
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+
+    <!-- Fill-Rate Analyzer API -->
+    <route url="/V1/flipdev/attributes/fillrate/analyze" method="GET">
+        <service class="FlipDev\AttributeManager\Api\FillRateAnalyzerInterface" method="getAttributeFillRates"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::analysis_fillrate"/>
+        </resources>
+    </route>
+
+    <route url="/V1/flipdev/attributes/fillrate/critical" method="GET">
+        <service class="FlipDev\AttributeManager\Api\FillRateAnalyzerInterface" method="getCriticalAttributes"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::analysis_fillrate"/>
+        </resources>
+    </route>
+
+    <route url="/V1/flipdev/attributes/fillrate/summary" method="GET">
+        <service class="FlipDev\AttributeManager\Api\FillRateAnalyzerInterface" method="getSummaryStatistics"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::analysis_fillrate"/>
+        </resources>
+    </route>
+
+    <route url="/V1/flipdev/attributes/fillrate/by-set" method="GET">
+        <service class="FlipDev\AttributeManager\Api\FillRateAnalyzerInterface" method="getByAttributeSet"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::analysis_fillrate"/>
+        </resources>
+    </route>
+
+    <!-- Duplicate Detector API -->
+    <route url="/V1/flipdev/attributes/duplicates/find" method="GET">
+        <service class="FlipDev\AttributeManager\Api\DuplicateDetectorInterface" method="findDuplicates"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::analysis_duplicates"/>
+        </resources>
+    </route>
+
+    <route url="/V1/flipdev/attributes/duplicates/compare/:sourceId/:targetId" method="GET">
+        <service class="FlipDev\AttributeManager\Api\DuplicateDetectorInterface" method="compareTwoAttributes"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::analysis_duplicates"/>
+        </resources>
+    </route>
+
+    <!-- Format Chaos Analyzer API -->
+    <route url="/V1/flipdev/attributes/chaos/analyze" method="GET">
+        <service class="FlipDev\AttributeManager\Api\FormatChaosAnalyzerInterface" method="analyzeAttributes"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::analysis_chaos"/>
+        </resources>
+    </route>
+
+    <route url="/V1/flipdev/attributes/chaos/analyze/:attributeCode" method="GET">
+        <service class="FlipDev\AttributeManager\Api\FormatChaosAnalyzerInterface" method="analyzeAttribute"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::analysis_chaos"/>
+        </resources>
+    </route>
+
+    <route url="/V1/flipdev/attributes/chaos/suggest/:attributeCode" method="GET">
+        <service class="FlipDev\AttributeManager\Api\FormatChaosAnalyzerInterface" method="suggestStandardFormat"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::analysis_chaos"/>
+        </resources>
+    </route>
+
+    <!-- Attribute Merger API -->
+    <route url="/V1/flipdev/attributes/merge/preview" method="POST">
+        <service class="FlipDev\AttributeManager\Api\AttributeMergerInterface" method="previewMerge"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::merge"/>
+        </resources>
+    </route>
+
+    <route url="/V1/flipdev/attributes/merge/execute" method="POST">
+        <service class="FlipDev\AttributeManager\Api\AttributeMergerInterface" method="executeMerge"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::merge"/>
+        </resources>
+    </route>
+
+    <route url="/V1/flipdev/attributes/merge/options" method="POST">
+        <service class="FlipDev\AttributeManager\Api\AttributeMergerInterface" method="mergeOptions"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::merge"/>
+        </resources>
+    </route>
+
+    <route url="/V1/flipdev/attributes/merge/proposal" method="POST">
+        <service class="FlipDev\AttributeManager\Api\AttributeMergerInterface" method="createMergeProposal"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::merge"/>
+        </resources>
+    </route>
+
+    <route url="/V1/flipdev/attributes/merge/rollback/:mergeLogId" method="POST">
+        <service class="FlipDev\AttributeManager\Api\AttributeMergerInterface" method="rollbackMerge"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::merge"/>
+        </resources>
+    </route>
+
+    <!-- Set Migration API -->
+    <route url="/V1/flipdev/attributes/migration/candidates" method="POST">
+        <service class="FlipDev\AttributeManager\Api\SetMigrationInterface" method="findMigrationCandidates"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::migration"/>
+        </resources>
+    </route>
+
+    <route url="/V1/flipdev/attributes/migration/preview" method="POST">
+        <service class="FlipDev\AttributeManager\Api\SetMigrationInterface" method="previewMigration"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::migration"/>
+        </resources>
+    </route>
+
+    <route url="/V1/flipdev/attributes/migration/execute" method="POST">
+        <service class="FlipDev\AttributeManager\Api\SetMigrationInterface" method="executeMigration"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::migration"/>
+        </resources>
+    </route>
+
+    <route url="/V1/flipdev/attributes/migration/misassigned" method="GET">
+        <service class="FlipDev\AttributeManager\Api\SetMigrationInterface" method="findMisassignedProducts"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::migration"/>
+        </resources>
+    </route>
+
+    <route url="/V1/flipdev/attributes/migration/distribution" method="GET">
+        <service class="FlipDev\AttributeManager\Api\SetMigrationInterface" method="getSetDistribution"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::migration"/>
+        </resources>
+    </route>
+
+    <route url="/V1/flipdev/attributes/migration/suggest/:productId" method="GET">
+        <service class="FlipDev\AttributeManager\Api\SetMigrationInterface" method="suggestAttributeSet"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::migration"/>
+        </resources>
+    </route>
+
+    <!-- Approval Manager API -->
+    <route url="/V1/flipdev/attributes/approval/create" method="POST">
+        <service class="FlipDev\AttributeManager\Api\ApprovalManagerInterface" method="createProposal"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::approval"/>
+        </resources>
+    </route>
+
+    <route url="/V1/flipdev/attributes/approval/:proposalId" method="GET">
+        <service class="FlipDev\AttributeManager\Api\ApprovalManagerInterface" method="getProposal"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::approval"/>
+        </resources>
+    </route>
+
+    <route url="/V1/flipdev/attributes/approval/pending" method="GET">
+        <service class="FlipDev\AttributeManager\Api\ApprovalManagerInterface" method="getPendingProposals"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::approval"/>
+        </resources>
+    </route>
+
+    <route url="/V1/flipdev/attributes/approval/:proposalId/approve" method="POST">
+        <service class="FlipDev\AttributeManager\Api\ApprovalManagerInterface" method="approveProposal"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::approval"/>
+        </resources>
+    </route>
+
+    <route url="/V1/flipdev/attributes/approval/:proposalId/reject" method="POST">
+        <service class="FlipDev\AttributeManager\Api\ApprovalManagerInterface" method="rejectProposal"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::approval"/>
+        </resources>
+    </route>
+
+    <route url="/V1/flipdev/attributes/approval/:proposalId/execute" method="POST">
+        <service class="FlipDev\AttributeManager\Api\ApprovalManagerInterface" method="executeProposal"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::approval"/>
+        </resources>
+    </route>
+
+    <route url="/V1/flipdev/attributes/approval/:proposalId/history" method="GET">
+        <service class="FlipDev\AttributeManager\Api\ApprovalManagerInterface" method="getProposalHistory"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::approval"/>
+        </resources>
+    </route>
+
+    <route url="/V1/flipdev/attributes/approval/:proposalId" method="DELETE">
+        <service class="FlipDev\AttributeManager\Api\ApprovalManagerInterface" method="deleteProposal"/>
+        <resources>
+            <resource ref="FlipDev_AttributeManager::approval"/>
+        </resources>
+    </route>
+
+</routes>

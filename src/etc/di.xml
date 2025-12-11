@@ -20,6 +20,12 @@
     <preference for="FlipDev\AttributeManager\Api\SetMigrationInterface"
                 type="FlipDev\AttributeManager\Service\SetMigration"/>
 
+    <preference for="FlipDev\AttributeManager\Api\FormatChaosAnalyzerInterface"
+                type="FlipDev\AttributeManager\Service\FormatChaosAnalyzer"/>
+
+    <preference for="FlipDev\AttributeManager\Api\ApprovalManagerInterface"
+                type="FlipDev\AttributeManager\Service\ApprovalManager"/>
+
     <!-- Virtual Types for Logging -->
     <virtualType name="FlipDevAttributeManagerLogger" type="Monolog\Logger">
         <arguments>
@@ -56,6 +62,18 @@
     </type>
 
     <type name="FlipDev\AttributeManager\Service\SetMigration">
+        <arguments>
+            <argument name="logger" xsi:type="object">FlipDevAttributeManagerLogger</argument>
+        </arguments>
+    </type>
+
+    <type name="FlipDev\AttributeManager\Service\FormatChaosAnalyzer">
+        <arguments>
+            <argument name="logger" xsi:type="object">FlipDevAttributeManagerLogger</argument>
+        </arguments>
+    </type>
+
+    <type name="FlipDev\AttributeManager\Service\ApprovalManager">
         <arguments>
             <argument name="logger" xsi:type="object">FlipDevAttributeManagerLogger</argument>
         </arguments>
