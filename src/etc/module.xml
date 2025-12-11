@@ -11,7 +11,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="FlipDev_AttributeManager">
+    <module name="FlipDev_AttributeManager"  setup_version="1.0.0">
         <sequence>
             <module name="FlipDev_Core"/>
             <module name="Magento_Catalog"/>
