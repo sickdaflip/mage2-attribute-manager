@@ -60,6 +60,34 @@ bin/magento setup:di:compile
 bin/magento cache:flush
 ```
 
+## Uninstallation
+
+The module includes a proper uninstall script that removes all database tables and configuration.
+
+### Complete Removal
+
+```bash
+# 1. Uninstall module (removes DB tables + config)
+bin/magento module:uninstall FlipDev_AttributeManager
+
+# 2. Remove via Composer
+composer remove sickdaflip/mage2-attribute-manager
+
+# 3. Clean up
+bin/magento setup:upgrade
+bin/magento cache:flush
+```
+
+**What gets removed:**
+- ✅ Database tables: `flipdev_approval_queue`, `flipdev_merge_log`, `flipdev_migration_proposal`
+- ✅ All module configuration values (`flipdev_attributes/*`)
+- ✅ Module code via Composer
+
+**Note:** Uninstall does **not** remove:
+- Attribute data (values remain in EAV tables)
+- Merged attributes
+- Migrated products
+
 ## Configuration
 
 Navigate to **Stores > Configuration > FlipDev Extensions > Attribute Manager**
