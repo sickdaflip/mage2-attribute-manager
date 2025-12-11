@@ -287,7 +287,7 @@ class ApprovalManager implements ApprovalManagerInterface
             return false;
         }
 
-        $notificationEmail = $this->config->getNotificationEmail();
+        $notificationEmail = $this->config->getApprovalNotifyEmail();
         if (empty($notificationEmail)) {
             return false;
         }

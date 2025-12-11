@@ -79,6 +79,22 @@
         </arguments>
     </type>
 
+    <!-- UI Grid Data Sources -->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="flipdev_approval_queue_listing_data_source" xsi:type="string">FlipDev\AttributeManager\Model\ResourceModel\ApprovalQueue\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="FlipDev\AttributeManager\Model\ResourceModel\ApprovalQueue\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">flipdev_approval_queue</argument>
+            <argument name="resourceModel" xsi:type="string">FlipDev\AttributeManager\Model\ResourceModel\ApprovalQueue</argument>
+        </arguments>
+    </virtualType>
+
     <!-- Console Commands Registration -->
     <type name="Magento\Framework\Console\CommandListInterface">
         <arguments>
